@@ -37,7 +37,7 @@ func CreateVideo() string {
 
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
-	videoPath := currentPath + VIDEO_PATH + "out.mp4"
+	videoPath := currentPath + "/" + VIDEO_PATH + "out.mp4"
 	logging.Info("Video created", zap.String("path", videoPath))
 	return videoPath
 }

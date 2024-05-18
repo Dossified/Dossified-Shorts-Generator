@@ -77,7 +77,7 @@ func getVideoTitle() string {
 func getVideoDescription() string {
 	return "News provided by Dossified.com for week " + fmt.Sprint(
 		getCurrentWeekNumber(),
-	) + " #shorts"
+	) + " " + fmt.Sprint(time.Now().Year()) + " #shorts"
 }
 
 const launchWebServer = false
