@@ -3,8 +3,9 @@ package main
 import (
 	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
 	"github.com/Dominique-Roth/Dossified-Shorts-Generator/rest"
-    "github.com/Dominique-Roth/Dossified-Shorts-Generator/screenshot"
-    "github.com/Dominique-Roth/Dossified-Shorts-Generator/video"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/screenshot"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/upload/youtube"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/video"
 )
 
 type PostRequestBody struct {
@@ -19,8 +20,9 @@ func main() {
 	logging.Debug("Test")
 
 	trendingArticles := rest.RequestTrends(0)
-    screenshot.ScreenshotTrends(trendingArticles)
+	screenshot.ScreenshotTrends(trendingArticles)
 
+	videoPath := video.CreateVideo()
 
-    video.CreateVideo()
+	youtube.UploadVideo(videoPath)
 }

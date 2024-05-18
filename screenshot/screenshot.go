@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-    "go.uber.org/zap"
+	"go.uber.org/zap"
 
 	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
 	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
@@ -17,7 +17,7 @@ import (
 )
 
 func ScreenshotTrends(trends []rest.TrendArticle) {
-    logging.Info("Taking screenshots")
+	logging.Info("Taking screenshots")
 	configuration := config.GetConfiguration()
 	gowitnessHost := configuration.GowitnessHost
 	restApiHost := configuration.RemoteUrl
@@ -32,7 +32,7 @@ func ScreenshotTrends(trends []rest.TrendArticle) {
 			article.ArticleId,
 			article.ArticleType,
 		)
-        logging.Debug("url", zap.String("url", requestUrl))
+		logging.Debug("url", zap.String("url", requestUrl))
 		body := []byte(`{
             "url": "` + requestUrl + `",
             "oneshot": "true"
@@ -55,7 +55,7 @@ func ScreenshotTrends(trends []rest.TrendArticle) {
 		_, err = io.Copy(file, res.Body)
 		utils.CheckError(err)
 	}
-    logging.Info("Screenshots taken")
+	logging.Info("Screenshots taken")
 }
 
 func createScreenshotDir() string {

@@ -9,9 +9,9 @@ import (
 )
 
 type ConfigStruct struct {
-    LogLevel        string
-	RemoteUrl       string
-	GowitnessHost   string
+	LogLevel      string
+	RemoteUrl     string
+	GowitnessHost string
 }
 
 func GetConfiguration() ConfigStruct {

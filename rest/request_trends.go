@@ -5,10 +5,10 @@ import (
 	"io"
 	"net/http"
 
-    "go.uber.org/zap"
+	"go.uber.org/zap"
 
-    "github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
 	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
 	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
 )
 
@@ -38,8 +38,8 @@ func RequestTrends(requestType int) []TrendArticle {
 	stringBody := string(responseBody)
 
 	articles := parseJson(stringBody)
-    //logging.Debug("Trending articles", map[string][]TrendArticle{"articles": articles,})
-    logging.Debug("Trends", zap.String("Trends", stringBody))
+	//logging.Debug("Trending articles", map[string][]TrendArticle{"articles": articles,})
+	logging.Debug("Trends", zap.String("Trends", stringBody))
 
 	return articles
 }

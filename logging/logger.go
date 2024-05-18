@@ -5,13 +5,13 @@ import (
 
 	"go.uber.org/zap"
 
-    "github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
 )
 
 var zapLogger *zap.SugaredLogger
 
 func InitLogger() {
-    logLevel := config.GetConfiguration().LogLevel
+	logLevel := config.GetConfiguration().LogLevel
 	rawJSON := []byte(`{
        "level": "` + logLevel + `",
        "encoding": "console",
