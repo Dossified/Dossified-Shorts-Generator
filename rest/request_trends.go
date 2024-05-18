@@ -7,9 +7,9 @@ import (
 
     "go.uber.org/zap"
 
-    "video_generator/logging"
-	"video_generator/config"
-	"video_generator/utils"
+    "github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
 )
 
 type RequestType int

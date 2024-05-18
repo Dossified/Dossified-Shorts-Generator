@@ -10,13 +10,14 @@ import (
 
     "go.uber.org/zap"
 
-	"video_generator/config"
-	"video_generator/logging"
-	"video_generator/rest"
-	"video_generator/utils"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/rest"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
 )
 
 func ScreenshotTrends(trends []rest.TrendArticle) {
+    logging.Info("Taking screenshots")
 	configuration := config.GetConfiguration()
 	gowitnessHost := configuration.GowitnessHost
 	restApiHost := configuration.RemoteUrl
@@ -54,6 +55,7 @@ func ScreenshotTrends(trends []rest.TrendArticle) {
 		_, err = io.Copy(file, res.Body)
 		utils.CheckError(err)
 	}
+    logging.Info("Screenshots taken")
 }
 
 func createScreenshotDir() string {

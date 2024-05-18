@@ -5,7 +5,7 @@ import (
 
 	"go.uber.org/zap"
 
-    "video_generator/config"
+    "github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
 )
 
 var zapLogger *zap.SugaredLogger

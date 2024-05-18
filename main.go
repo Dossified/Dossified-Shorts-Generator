@@ -1,9 +1,10 @@
 package main
 
 import (
-	"video_generator/logging"
-	"video_generator/rest"
-    "video_generator/screenshot"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/rest"
+    "github.com/Dominique-Roth/Dossified-Shorts-Generator/screenshot"
+    "github.com/Dominique-Roth/Dossified-Shorts-Generator/video"
 )
 
 type PostRequestBody struct {
@@ -20,4 +21,6 @@ func main() {
 	trendingArticles := rest.RequestTrends(0)
     screenshot.ScreenshotTrends(trendingArticles)
 
+
+    video.CreateVideo()
 }

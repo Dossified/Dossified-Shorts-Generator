@@ -1,4 +1,4 @@
-module video_generator
+module github.com/Dominique-Roth/Dossified-Shorts-Generator
 
 go 1.22.0
 

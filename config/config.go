@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"video_generator/utils"
+	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
 
 	"github.com/pelletier/go-toml/v2"
 )
