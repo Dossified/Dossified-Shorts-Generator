@@ -1,0 +1,3 @@
+RemoteUrl = "http://127.0.0.1:8000"
+GowitnessHost = "http://127.0.0.1:7171"
+LogLevel = "debug"
