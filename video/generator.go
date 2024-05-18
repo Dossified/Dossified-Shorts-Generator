@@ -23,23 +23,17 @@ func CreateVideo() {
     files, err := os.ReadDir(IMAGE_PATH)
     utils.CheckError(err)
 
+    videoFiles := make([]string, 0)
     for _, file := range files {
         if !strings.Contains(file.Name(), ".png") {
             continue
         }
         logging.Debug("Preparing image", zap.String("File", file.Name()))
-        prepareImage(file.Name())
+        videoFilePath := createVideoFromImage(file.Name())
+        videoFiles = append(videoFiles, videoFilePath)
     }
-    //ffmpeg_go.Input(
-    //    "output/screenshots/*.png",
-    //    ffmpeg_go.KwArgs{
-    //        "pattern_type": "glob",
-    //        "framerate": "1/6",
-    //    }).
-	//	Output(VIDEO_PATH).
-	//	OverWriteOutput().
-	//	ErrorToStdOut().
-	//	Run()
+    mergeVideos(videoFiles)
+    removeTemporaryVideos(videoFiles)
     logging.Info("Video created", zap.String("path", VIDEO_PATH))
 }
 
@@ -47,25 +41,42 @@ func createVideoDir() string {
 	path := filepath.Join(".", VIDEO_PATH)
 	err := os.MkdirAll(path, os.ModePerm)
 	utils.CheckError(err)
-	logging.Debug("Screenshot path", zap.String("path", path))
+	logging.Debug("Video path", zap.String("path", path))
 	return path
 }
 
-func mergeVideos() {
-
+func removeTemporaryVideos(videoFiles []string) {
+    for _, file := range videoFiles {
+        err := os.Remove(file)
+        utils.CheckError(err)
+    }
 }
 
-func prepareImage(imageFileName string) {
+func mergeVideos(videoFiles []string) {
+    
+	//executable_path, err := os.Getwd()
+	//utils.CheckError(err)
+    //outputFilePath := executable_path + "/" + VIDEO_PATH + "*.mp4" 
 
-    //videoFilePath := createVideoFromImage(imageFileName)
-    createVideoFromImage(imageFileName)
-    //addFadeIn(videoFilePath)
+    videoPathsTextFile, err := os.Create(VIDEO_PATH + "videos")
+    utils.CheckError(err)
+
+    for _, file := range videoFiles {
+        videoPathsTextFile.WriteString("file '" + file + "'\n")
+    }
+    ffmpeg_go.Input(
+        VIDEO_PATH + "videos",
+        ffmpeg_go.KwArgs{
+            "f": "concat",
+            "safe": "0",
+    }).Output(VIDEO_PATH + "out.mp4").OverWriteOutput().ErrorToStdOut().Run()
+    os.Remove(VIDEO_PATH + "videos")
 }
 
 func createVideoFromImage(imageFileName string) string {
 	executable_path, err := os.Getwd()
 	utils.CheckError(err)
-    outputFilePath := executable_path + "/" + VIDEO_PATH + strings.Replace(imageFileName, ".png", "", -1) + "RAW.mp4" 
+    outputFilePath := executable_path + "/" + VIDEO_PATH + strings.Replace(imageFileName, ".png", "", -1) + ".mp4" 
     ffmpeg_go.Input(
             IMAGE_PATH + imageFileName,
             ffmpeg_go.KwArgs{
