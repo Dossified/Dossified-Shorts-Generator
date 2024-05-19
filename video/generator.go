@@ -99,6 +99,8 @@ func createVideoFromImage(imageFileName string) string {
 		OverWriteOutput().
 		ErrorToStdOut().
 		Run()
+    err = os.Remove(IMAGE_PATH + imageFileName)
+    utils.CheckError(err)
 	return outputFilePath
 }
 
