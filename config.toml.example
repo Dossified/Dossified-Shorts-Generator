@@ -2,5 +2,8 @@ RemoteUrl = "https://dossified.com"
 GowitnessHost = "http://127.0.0.1:7171"
 LogLevel = "debug"
 
+UploadToYouTube = false
+UploadToInstagram = false
+
 InstagramUsername = "Username"
 InstagramPassword = "Password"
