@@ -7,9 +7,9 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
+	"github.com/Dossified/Dossified-Shorts-Generator/config"
+	"github.com/Dossified/Dossified-Shorts-Generator/logging"
+	"github.com/Dossified/Dossified-Shorts-Generator/utils"
 )
 
 type RequestType int

@@ -14,10 +14,9 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
-	"time"
 
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
+	"github.com/Dossified/Dossified-Shorts-Generator/logging"
+	"github.com/Dossified/Dossified-Shorts-Generator/utils"
 
 	"go.uber.org/zap"
 	"golang.org/x/net/context"
@@ -28,8 +27,8 @@ import (
 
 func UploadVideo(videoPath string) {
 
-	videoTitle := getVideoTitle()
-	videoDescription := getVideoDescription()
+	videoTitle := utils.GetVideoTitle()
+	videoDescription := utils.GetVideoDescription()
 	videoCategory := ""
 	videoKeywords := "crypto currency, news, bitcoin, ethereum, solana, iota, ripple, monero, usdc"
 	videoPrivacyStatus := "private"
@@ -64,21 +63,6 @@ func UploadVideo(videoPath string) {
 	logging.Info("YouTube Upload Successful!", zap.String("Video ID", response.Id))
 }
 
-func getCurrentWeekNumber() int {
-	timeNow := time.Now()
-	_, weekNumber := timeNow.ISOWeek()
-	return weekNumber
-}
-
-func getVideoTitle() string {
-	return "Crypto News week " + fmt.Sprint(getCurrentWeekNumber()) + " #shorts"
-}
-
-func getVideoDescription() string {
-	return "News provided by Dossified.com for week " + fmt.Sprint(
-		getCurrentWeekNumber(),
-	) + " " + fmt.Sprint(time.Now().Year()) + " #shorts"
-}
 
 const launchWebServer = false
 

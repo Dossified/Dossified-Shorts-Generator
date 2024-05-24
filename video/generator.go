@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
+	"github.com/Dossified/Dossified-Shorts-Generator/logging"
+	"github.com/Dossified/Dossified-Shorts-Generator/utils"
 
 	"github.com/u2takey/ffmpeg-go"
 	"go.uber.org/zap"

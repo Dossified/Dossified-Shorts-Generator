@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/logging"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/rest"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/screenshot"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/upload/youtube"
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/video"
+	"github.com/Dossified/Dossified-Shorts-Generator/logging"
+	"github.com/Dossified/Dossified-Shorts-Generator/rest"
+	"github.com/Dossified/Dossified-Shorts-Generator/screenshot"
+	"github.com/Dossified/Dossified-Shorts-Generator/upload/youtube"
+	"github.com/Dossified/Dossified-Shorts-Generator/upload/instagram"
+	"github.com/Dossified/Dossified-Shorts-Generator/video"
 )
 
 type PostRequestBody struct {
@@ -25,4 +26,5 @@ func main() {
 	videoPath := video.CreateVideo()
 
 	youtube.UploadVideo(videoPath)
+    instagram.UploadToInstagram(videoPath)
 }

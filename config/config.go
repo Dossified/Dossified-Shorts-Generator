@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/utils"
+	"github.com/Dossified/Dossified-Shorts-Generator/utils"
 
 	"github.com/pelletier/go-toml/v2"
 )
@@ -12,6 +12,9 @@ type ConfigStruct struct {
 	LogLevel      string
 	RemoteUrl     string
 	GowitnessHost string
+
+    InstagramUsername string
+    InstagramPassword string
 }
 
 func GetConfiguration() ConfigStruct {
