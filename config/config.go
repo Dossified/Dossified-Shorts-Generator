@@ -13,6 +13,9 @@ type ConfigStruct struct {
 	RemoteUrl     string
 	GowitnessHost string
 
+    UploadToYouTube bool
+    UploadToInstagram bool
+
     InstagramUsername string
     InstagramPassword string
 }

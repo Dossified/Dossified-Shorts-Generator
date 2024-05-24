@@ -7,6 +7,7 @@ import (
 	"github.com/Dossified/Dossified-Shorts-Generator/upload/youtube"
 	"github.com/Dossified/Dossified-Shorts-Generator/upload/instagram"
 	"github.com/Dossified/Dossified-Shorts-Generator/video"
+	"github.com/Dossified/Dossified-Shorts-Generator/config"
 )
 
 type PostRequestBody struct {
@@ -25,6 +26,10 @@ func main() {
 
 	videoPath := video.CreateVideo()
 
-	youtube.UploadVideo(videoPath)
-    instagram.UploadToInstagram(videoPath)
+    if config.GetConfiguration().UploadToYouTube {
+	    youtube.UploadVideo(videoPath)
+    }
+    if config.GetConfiguration().UploadToInstagram {
+        instagram.UploadToInstagram(videoPath)
+    }
 }
