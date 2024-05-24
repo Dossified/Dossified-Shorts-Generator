@@ -26,3 +26,4 @@ output/
 
 .DS_Store
 
+config.toml

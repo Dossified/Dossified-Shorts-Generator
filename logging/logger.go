@@ -5,7 +5,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/Dominique-Roth/Dossified-Shorts-Generator/config"
+	"github.com/Dossified/Dossified-Shorts-Generator/config"
 )
 
 var zapLogger *zap.SugaredLogger
