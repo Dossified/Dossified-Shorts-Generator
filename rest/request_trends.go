@@ -1,6 +1,7 @@
 package rest
 
 import (
+    "fmt"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -25,7 +26,15 @@ const (
 	STAFF_PICKED
 )
 
-func RequestTrends(requestType int) []TrendArticle {
+func RequestNewsTrends() []TrendArticle {
+    return requestTrends("news")
+}
+
+func RequestEventsTrends() []TrendArticle {
+    return requestTrends("events")
+}
+
+func requestTrends(requestType string) []TrendArticle {
 
 	var requestUrl string = getRestUrl(requestType)
 
@@ -38,7 +47,6 @@ func RequestTrends(requestType int) []TrendArticle {
 	stringBody := string(responseBody)
 
 	articles := parseJson(stringBody)
-	//logging.Debug("Trending articles", map[string][]TrendArticle{"articles": articles,})
 	logging.Debug("Trends", zap.String("Trends", stringBody))
 
 	return articles
@@ -51,11 +59,10 @@ func parseJson(stringBody string) []TrendArticle {
 	return data
 }
 
-func getRestUrl(requestType int) string {
-	// ToDo: Add filters to request & server to only provide certain types of trends e.g. news
-	remoteUrl := config.GetConfiguration().RemoteUrl
-	urlMap := map[int]string{
-		0: remoteUrl + "/api/trends/",
-	}
-	return urlMap[requestType]
+func getRestUrl(requestType string) string {
+    configuration := config.GetConfiguration()
+    amountTrends := configuration.AmountTrends
+    amountDaysOfTrends := configuration.AmountDaysTrends
+	remoteUrl := configuration.RemoteUrl
+    return remoteUrl + "/api/trends/?filter=" + requestType + "&amount=" + fmt.Sprint(amountTrends) + "&days=" + fmt.Sprint(amountDaysOfTrends)
 }

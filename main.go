@@ -21,8 +21,10 @@ func main() {
 	logging.Info("Dossified Shorts Generator v0.1")
 	logging.Debug("Test")
 
-	trendingArticles := rest.RequestTrends(0)
-	screenshot.ScreenshotTrends(trendingArticles)
+	trendingNews := rest.RequestNewsTrends()
+    trendingEvents := rest.RequestEventsTrends()
+	screenshot.ScreenshotTrends(trendingNews, "news")
+	screenshot.ScreenshotTrends(trendingEvents, "events")
 
 	videoPath := video.CreateVideo()
 
