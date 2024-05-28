@@ -63,7 +63,6 @@ func UploadVideo(videoPath string) {
 	logging.Info("YouTube Upload Successful!", zap.String("Video ID", response.Id))
 }
 
-
 const launchWebServer = false
 
 const missingClientSecretsMessage = `
