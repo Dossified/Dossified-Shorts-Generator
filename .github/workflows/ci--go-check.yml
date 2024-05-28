@@ -23,7 +23,7 @@ jobs:
         run: go get .
 
       - name: Check formatting
-        run: test -z $(gofmt -l -e .)
+        run: files=$(gofmt -l .) && [ -z "$files" ]
 
       - name: Build
         run: go build -v ./...
