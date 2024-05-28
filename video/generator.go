@@ -38,7 +38,7 @@ func CreateVideo() string {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	videoPath := currentPath + "/" + VIDEO_PATH + "out.mp4"
-    addBackgroundMusic(videoPath)
+	addBackgroundMusic(videoPath)
 	videoPath = currentPath + "/" + VIDEO_PATH + "videoFinal.mp4"
 	logging.Info("Video created", zap.String("path", videoPath))
 	return videoPath
@@ -83,7 +83,7 @@ func createVideoFromImage(imageFileName string) string {
 		".png",
 		"",
 		-1,
-        ) + ".mp4"
+	) + ".mp4"
 	ffmpeg_go.Input(
 		IMAGE_PATH+imageFileName,
 		ffmpeg_go.KwArgs{
@@ -99,24 +99,24 @@ func createVideoFromImage(imageFileName string) string {
 		OverWriteOutput().
 		ErrorToStdOut().
 		Run()
-    err = os.Remove(IMAGE_PATH + imageFileName)
-    utils.CheckError(err)
+	err = os.Remove(IMAGE_PATH + imageFileName)
+	utils.CheckError(err)
 	return outputFilePath
 }
 
 func addBackgroundMusic(videoPath string) {
-    currentPath, err := os.Getwd()
-    utils.CheckError(err)
-    inputVideo := ffmpeg_go.Input(videoPath)
-    inputAudio := ffmpeg_go.Input(currentPath + "/assets/bg_music.wav")
-    out := ffmpeg_go.Output(
-        []*ffmpeg_go.Stream{inputVideo, inputAudio},
-        VIDEO_PATH + "videoFinal.mp4",
-        ffmpeg_go.KwArgs{
-            "map": "1:a",
-            "c:v": "copy",
-            "shortest": "",
-        },
-    )
-    out.OverWriteOutput().ErrorToStdOut().Run()
+	currentPath, err := os.Getwd()
+	utils.CheckError(err)
+	inputVideo := ffmpeg_go.Input(videoPath)
+	inputAudio := ffmpeg_go.Input(currentPath + "/assets/bg_music.wav")
+	out := ffmpeg_go.Output(
+		[]*ffmpeg_go.Stream{inputVideo, inputAudio},
+		VIDEO_PATH+"videoFinal.mp4",
+		ffmpeg_go.KwArgs{
+			"map":      "1:a",
+			"c:v":      "copy",
+			"shortest": "",
+		},
+	)
+	out.OverWriteOutput().ErrorToStdOut().Run()
 }

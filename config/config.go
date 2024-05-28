@@ -13,11 +13,11 @@ type ConfigStruct struct {
 	RemoteUrl     string
 	GowitnessHost string
 
-    UploadToYouTube bool
-    UploadToInstagram bool
+	UploadToYouTube   bool
+	UploadToInstagram bool
 
-    InstagramUsername string
-    InstagramPassword string
+	InstagramUsername string
+	InstagramPassword string
 }
 
 func GetConfiguration() ConfigStruct {
