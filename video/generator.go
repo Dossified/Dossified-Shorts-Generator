@@ -1,6 +1,7 @@
 package video
 
 import (
+    "fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -49,14 +50,14 @@ func createVideoSnippets(subFolder string) []string {
 			continue
 		}
 		logging.Debug("Preparing image", zap.String("File", file.Name()))
-		videoFilePath := createVideoFromImage(IMAGE_PATH + subFolder + "/", file.Name())
+		videoFilePath := createVideoFromImage(IMAGE_PATH + subFolder + "/", file.Name(), 6)
 		videoFiles = append(videoFiles, videoFilePath)
 	}
     return videoFiles
 }
 
 func createChapterIntroVideo(chapterName string) string {
-    videoFilePath := createVideoFromImage(ASSET_PATH, chapterName + ".png")
+    videoFilePath := createVideoFromImage(ASSET_PATH, chapterName + ".png", 3)
     return videoFilePath
 }
 
@@ -91,7 +92,7 @@ func mergeVideos(videoFiles []string) {
 	os.Remove(VIDEO_PATH + "videos")
 }
 
-func createVideoFromImage(imagePath string, imageFileName string) string {
+func createVideoFromImage(imagePath string, imageFileName string, length int) string {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	outputFilePath := currentPath + "/" + VIDEO_PATH + strings.Replace(
@@ -100,17 +101,19 @@ func createVideoFromImage(imagePath string, imageFileName string) string {
 		"",
 		-1,
         ) + ".mp4"
+    frameRate := 30
+    fadeOutFrame := (frameRate * length) - frameRate
 	ffmpeg_go.Input(
 		imagePath + imageFileName,
 		ffmpeg_go.KwArgs{
-			"t":         "6",
+			"t":         fmt.Sprint(length),
 			"loop":      "1",
-			"framerate": "30",
+			"framerate": fmt.Sprint(frameRate),
 		}).
 		Output(
 			outputFilePath,
 			ffmpeg_go.KwArgs{
-				"vf": "fade=in:0:30, fade=out:150:30",
+				"vf": "fade=in:0:30, fade=out:" + fmt.Sprint(fadeOutFrame) + ":30",
 			}).
 		OverWriteOutput().
 		ErrorToStdOut().
