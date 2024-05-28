@@ -27,16 +27,18 @@ const (
 )
 
 func RequestNewsTrends() []TrendArticle {
-    return requestTrends("news")
+    amountTrends := config.GetConfiguration().AmountNewsTrends
+    return requestTrends("news", amountTrends)
 }
 
 func RequestEventsTrends() []TrendArticle {
-    return requestTrends("events")
+    amountTrends := config.GetConfiguration().AmountEventsTrends
+    return requestTrends("events", amountTrends)
 }
 
-func requestTrends(requestType string) []TrendArticle {
+func requestTrends(requestType string, amountTrends int) []TrendArticle {
 
-	var requestUrl string = getRestUrl(requestType)
+	var requestUrl string = getRestUrl(requestType, amountTrends)
 
 	response, err := http.Get(requestUrl)
 	utils.CheckError(err)
@@ -59,9 +61,8 @@ func parseJson(stringBody string) []TrendArticle {
 	return data
 }
 
-func getRestUrl(requestType string) string {
+func getRestUrl(requestType string, amountTrends int) string {
     configuration := config.GetConfiguration()
-    amountTrends := configuration.AmountTrends
     amountDaysOfTrends := configuration.AmountDaysTrends
 	remoteUrl := configuration.RemoteUrl
     return remoteUrl + "/api/trends/?filter=" + requestType + "&amount=" + fmt.Sprint(amountTrends) + "&days=" + fmt.Sprint(amountDaysOfTrends)
