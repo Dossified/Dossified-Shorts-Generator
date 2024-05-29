@@ -6,7 +6,7 @@ import (
 )
 
 func GetVideoTitle() string {
-	return "Crypto News week " + fmt.Sprint(getCurrentWeekNumber()) + " #shorts"
+	return "Crypto News week " + fmt.Sprint(getCurrentWeekNumber()) + " #shorts #blockchain #crypto #news"
 }
 
 func GetVideoDescription() string {

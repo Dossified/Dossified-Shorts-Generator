@@ -16,14 +16,14 @@ import (
 	"github.com/Dossified/Dossified-Shorts-Generator/utils"
 )
 
-func ScreenshotTrends(trends []rest.TrendArticle) {
+func ScreenshotTrends(trends []rest.TrendArticle, subFolder string) {
 	logging.Info("Taking screenshots")
 	configuration := config.GetConfiguration()
 	gowitnessHost := configuration.GowitnessHost
 	restApiHost := configuration.RemoteUrl
 
 	screenshotPostUrl := gowitnessHost + "/api/screenshot"
-	screenshotPath := createScreenshotDir()
+	screenshotPath := createScreenshotDir(subFolder)
 
 	for _, article := range trends {
 		requestUrl := fmt.Sprintf(
@@ -58,8 +58,8 @@ func ScreenshotTrends(trends []rest.TrendArticle) {
 	logging.Info("Screenshots taken")
 }
 
-func createScreenshotDir() string {
-	path := filepath.Join(".", "output/screenshots")
+func createScreenshotDir(subFolder string) string {
+	path := filepath.Join(".", "output/screenshots/"+subFolder)
 	err := os.MkdirAll(path, os.ModePerm)
 	utils.CheckError(err)
 	logging.Debug("Screenshot path", zap.String("path", path))

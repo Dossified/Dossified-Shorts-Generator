@@ -2,6 +2,10 @@ RemoteUrl = "https://dossified.com"
 GowitnessHost = "http://127.0.0.1:7171"
 LogLevel = "debug"
 
+AmountNewsTrends = 4
+AmountEventsTrends = 3
+AmountDaysTrends = 7
+
 UploadToYouTube = false
 UploadToInstagram = false
 
