@@ -1,7 +1,7 @@
 package video
 
 import (
-    "fmt"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,11 +22,11 @@ func CreateVideo() string {
 
 	createVideoDir()
 
-    videoFiles := make([]string, 0)
-    videoFiles = append(videoFiles, createChapterIntroVideo("news"))
-    videoFiles = append(videoFiles, createVideoSnippets("news")...)
-    videoFiles = append(videoFiles, createChapterIntroVideo("events"))
-    videoFiles = append(videoFiles, createVideoSnippets("events")...)
+	videoFiles := make([]string, 0)
+	videoFiles = append(videoFiles, createChapterIntroVideo("news"))
+	videoFiles = append(videoFiles, createVideoSnippets("news")...)
+	videoFiles = append(videoFiles, createChapterIntroVideo("events"))
+	videoFiles = append(videoFiles, createVideoSnippets("events")...)
 
 	mergeVideos(videoFiles)
 	removeTemporaryVideos(videoFiles)
@@ -50,15 +50,15 @@ func createVideoSnippets(subFolder string) []string {
 			continue
 		}
 		logging.Debug("Preparing image", zap.String("File", file.Name()))
-		videoFilePath := createVideoFromImage(IMAGE_PATH + subFolder + "/", file.Name(), 6)
+		videoFilePath := createVideoFromImage(IMAGE_PATH+subFolder+"/", file.Name(), 6)
 		videoFiles = append(videoFiles, videoFilePath)
 	}
-    return videoFiles
+	return videoFiles
 }
 
 func createChapterIntroVideo(chapterName string) string {
-    videoFilePath := createVideoFromImage(ASSET_PATH, chapterName + ".png", 3)
-    return videoFilePath
+	videoFilePath := createVideoFromImage(ASSET_PATH, chapterName+".png", 3)
+	return videoFilePath
 }
 
 func createVideoDir() string {
@@ -101,10 +101,10 @@ func createVideoFromImage(imagePath string, imageFileName string, length int) st
 		"",
 		-1,
 	) + ".mp4"
-    frameRate := 30
-    fadeOutFrame := (frameRate * length) - frameRate
+	frameRate := 30
+	fadeOutFrame := (frameRate * length) - frameRate
 	ffmpeg_go.Input(
-		imagePath + imageFileName,
+		imagePath+imageFileName,
 		ffmpeg_go.KwArgs{
 			"t":         fmt.Sprint(length),
 			"loop":      "1",
@@ -118,16 +118,16 @@ func createVideoFromImage(imagePath string, imageFileName string, length int) st
 		OverWriteOutput().
 		ErrorToStdOut().
 		Run()
-    removeOldScreenshots(imagePath, imageFileName)
+	removeOldScreenshots(imagePath, imageFileName)
 	return outputFilePath
 }
 
 func removeOldScreenshots(imagePath string, imageFileName string) {
-    if imagePath == ASSET_PATH {
-        return
-    }
-    err := os.Remove(imagePath + imageFileName)
-    utils.CheckError(err)
+	if imagePath == ASSET_PATH {
+		return
+	}
+	err := os.Remove(imagePath + imageFileName)
+	utils.CheckError(err)
 }
 
 func addBackgroundMusic(videoPath string) {

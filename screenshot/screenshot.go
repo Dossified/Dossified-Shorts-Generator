@@ -59,7 +59,7 @@ func ScreenshotTrends(trends []rest.TrendArticle, subFolder string) {
 }
 
 func createScreenshotDir(subFolder string) string {
-	path := filepath.Join(".", "output/screenshots/" + subFolder)
+	path := filepath.Join(".", "output/screenshots/"+subFolder)
 	err := os.MkdirAll(path, os.ModePerm)
 	utils.CheckError(err)
 	logging.Debug("Screenshot path", zap.String("path", path))

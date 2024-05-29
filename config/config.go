@@ -9,19 +9,19 @@ import (
 )
 
 type ConfigStruct struct {
-	LogLevel            string
-	RemoteUrl           string
-	GowitnessHost       string
+	LogLevel      string
+	RemoteUrl     string
+	GowitnessHost string
 
-	AmountNewsTrends    int
-	AmountEventsTrends  int
-	AmountDaysTrends    int
+	AmountNewsTrends   int
+	AmountEventsTrends int
+	AmountDaysTrends   int
 
-  UploadToYouTube     bool
-  UploadToInstagram   bool
+	UploadToYouTube   bool
+	UploadToInstagram bool
 
-  InstagramUsername   string
-  InstagramPassword   string
+	InstagramUsername string
+	InstagramPassword string
 }
 
 func GetConfiguration() ConfigStruct {

@@ -22,7 +22,7 @@ func main() {
 	logging.Debug("Test")
 
 	trendingNews := rest.RequestNewsTrends()
-    trendingEvents := rest.RequestEventsTrends()
+	trendingEvents := rest.RequestEventsTrends()
 	screenshot.ScreenshotTrends(trendingNews, "news")
 	screenshot.ScreenshotTrends(trendingEvents, "events")
 

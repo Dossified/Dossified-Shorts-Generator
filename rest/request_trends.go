@@ -1,8 +1,8 @@
 package rest
 
 import (
-    "fmt"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -27,13 +27,13 @@ const (
 )
 
 func RequestNewsTrends() []TrendArticle {
-    amountTrends := config.GetConfiguration().AmountNewsTrends
-    return requestTrends("news", amountTrends)
+	amountTrends := config.GetConfiguration().AmountNewsTrends
+	return requestTrends("news", amountTrends)
 }
 
 func RequestEventsTrends() []TrendArticle {
-    amountTrends := config.GetConfiguration().AmountEventsTrends
-    return requestTrends("events", amountTrends)
+	amountTrends := config.GetConfiguration().AmountEventsTrends
+	return requestTrends("events", amountTrends)
 }
 
 func requestTrends(requestType string, amountTrends int) []TrendArticle {
@@ -62,8 +62,8 @@ func parseJson(stringBody string) []TrendArticle {
 }
 
 func getRestUrl(requestType string, amountTrends int) string {
-    configuration := config.GetConfiguration()
-    amountDaysOfTrends := configuration.AmountDaysTrends
+	configuration := config.GetConfiguration()
+	amountDaysOfTrends := configuration.AmountDaysTrends
 	remoteUrl := configuration.RemoteUrl
-    return remoteUrl + "/api/trends/?filter=" + requestType + "&amount=" + fmt.Sprint(amountTrends) + "&days=" + fmt.Sprint(amountDaysOfTrends)
+	return remoteUrl + "/api/trends/?filter=" + requestType + "&amount=" + fmt.Sprint(amountTrends) + "&days=" + fmt.Sprint(amountDaysOfTrends)
 }
