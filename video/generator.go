@@ -34,7 +34,7 @@ func CreateVideo() string {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	videoPath := currentPath + "/" + VIDEO_PATH + "out.mp4"
-    addBackgroundMusic(videoPath)
+	addBackgroundMusic(videoPath)
 	videoPath = currentPath + "/" + VIDEO_PATH + "videoFinal.mp4"
 	logging.Info("Video created", zap.String("path", videoPath))
 	return videoPath
@@ -100,7 +100,7 @@ func createVideoFromImage(imagePath string, imageFileName string, length int) st
 		".png",
 		"",
 		-1,
-        ) + ".mp4"
+	) + ".mp4"
     frameRate := 30
     fadeOutFrame := (frameRate * length) - frameRate
 	ffmpeg_go.Input(
@@ -131,18 +131,18 @@ func removeOldScreenshots(imagePath string, imageFileName string) {
 }
 
 func addBackgroundMusic(videoPath string) {
-    currentPath, err := os.Getwd()
-    utils.CheckError(err)
-    inputVideo := ffmpeg_go.Input(videoPath)
-    inputAudio := ffmpeg_go.Input(currentPath + "/assets/bg_music.wav")
-    out := ffmpeg_go.Output(
-        []*ffmpeg_go.Stream{inputVideo, inputAudio},
-        VIDEO_PATH + "videoFinal.mp4",
-        ffmpeg_go.KwArgs{
-            "map": "1:a",
-            "c:v": "copy",
-            "shortest": "",
-        },
-    )
-    out.OverWriteOutput().ErrorToStdOut().Run()
+	currentPath, err := os.Getwd()
+	utils.CheckError(err)
+	inputVideo := ffmpeg_go.Input(videoPath)
+	inputAudio := ffmpeg_go.Input(currentPath + "/assets/bg_music.wav")
+	out := ffmpeg_go.Output(
+		[]*ffmpeg_go.Stream{inputVideo, inputAudio},
+		VIDEO_PATH+"videoFinal.mp4",
+		ffmpeg_go.KwArgs{
+			"map":      "1:a",
+			"c:v":      "copy",
+			"shortest": "",
+		},
+	)
+	out.OverWriteOutput().ErrorToStdOut().Run()
 }

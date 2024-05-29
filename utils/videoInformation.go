@@ -1,8 +1,8 @@
 package utils
 
 import (
-    "fmt"
-    "time"
+	"fmt"
+	"time"
 )
 
 func GetVideoTitle() string {
