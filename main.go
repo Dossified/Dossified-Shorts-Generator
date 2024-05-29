@@ -19,7 +19,6 @@ type PostRequestBody struct {
 func main() {
 	logging.InitLogger()
 	logging.Info("Dossified Shorts Generator v0.1")
-	logging.Debug("Test")
 
 	trendingNews := rest.RequestNewsTrends()
 	trendingEvents := rest.RequestEventsTrends()
