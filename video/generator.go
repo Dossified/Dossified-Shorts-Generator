@@ -17,16 +17,24 @@ const VIDEO_PATH = "output/videos/"
 const IMAGE_PATH = "output/screenshots/"
 const ASSET_PATH = "assets/"
 
-func CreateVideo() string {
+func CreateVideo(videoMode string) string {
 	logging.Info("Creating video")
 
 	createVideoDir()
 
 	videoFiles := make([]string, 0)
-	videoFiles = append(videoFiles, createChapterIntroVideo("news"))
-	videoFiles = append(videoFiles, createVideoSnippets("news")...)
-	videoFiles = append(videoFiles, createChapterIntroVideo("events"))
-	videoFiles = append(videoFiles, createVideoSnippets("events")...)
+    switch videoMode {
+        case "news":
+            videoFiles = append(videoFiles, createChapterIntroVideo("news"))
+            videoFiles = append(videoFiles, createVideoSnippets("news")...)
+            break;
+        case "events":
+            videoFiles = append(videoFiles, createChapterIntroVideo("events"))
+            videoFiles = append(videoFiles, createVideoSnippets("events")...)
+            break;
+        case "coins":
+            break;
+    }
 
 	mergeVideos(videoFiles)
 	removeTemporaryVideos(videoFiles)

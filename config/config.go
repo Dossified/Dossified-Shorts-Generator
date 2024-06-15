@@ -14,7 +14,7 @@ type ConfigStruct struct {
 	GowitnessHost string
 
 	AmountNewsTrends   int
-	AmountEventsTrends int
+	AmountUpcomingEvents int
 	AmountDaysTrends   int
 
 	UploadToYouTube   bool
