@@ -23,18 +23,18 @@ func CreateVideo(videoMode string) string {
 	createVideoDir()
 
 	videoFiles := make([]string, 0)
-    switch videoMode {
-        case "news":
-            videoFiles = append(videoFiles, createChapterIntroVideo("news"))
-            videoFiles = append(videoFiles, createVideoSnippets("news")...)
-            break;
-        case "events":
-            videoFiles = append(videoFiles, createChapterIntroVideo("events"))
-            videoFiles = append(videoFiles, createVideoSnippets("events")...)
-            break;
-        case "coins":
-            break;
-    }
+	switch videoMode {
+	case "news":
+		videoFiles = append(videoFiles, createChapterIntroVideo("news"))
+		videoFiles = append(videoFiles, createVideoSnippets("news")...)
+		break
+	case "events":
+		videoFiles = append(videoFiles, createChapterIntroVideo("events"))
+		videoFiles = append(videoFiles, createVideoSnippets("events")...)
+		break
+	case "coins":
+		break
+	}
 
 	mergeVideos(videoFiles)
 	removeTemporaryVideos(videoFiles)

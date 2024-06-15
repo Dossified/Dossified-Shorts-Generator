@@ -21,14 +21,14 @@ type TrendArticle struct {
 }
 
 type EventItem struct {
-    EventId         int     `json:"pk"`
-    EventTitle      string  `json:"title"`
-    EventSource     string  `json:"source"`
-    EventDatePublic string  `json:"date_public"`
-    EventDateStart  string  `json:"date_start"`
-    EventDateEnd    string  `json:"date_end"`
-    EventCoinId     int     `json:"coin_id"`
-    EventTags       int     `json:"tags"`
+	EventId         int    `json:"pk"`
+	EventTitle      string `json:"title"`
+	EventSource     string `json:"source"`
+	EventDatePublic string `json:"date_public"`
+	EventDateStart  string `json:"date_start"`
+	EventDateEnd    string `json:"date_end"`
+	EventCoinId     int    `json:"coin_id"`
+	EventTags       int    `json:"tags"`
 }
 
 const (
@@ -82,7 +82,7 @@ func requestTrends(requestType string, amountTrends int) []TrendArticle {
 
 func parseEventsJson(stringBody string) []EventItem {
 	data := []EventItem{}
-    logging.Debug("Events JSON: " + fmt.Sprint(data))
+	logging.Debug("Events JSON: " + fmt.Sprint(data))
 	err := json.Unmarshal([]byte(stringBody), &data)
 	utils.CheckError(err)
 	return data
@@ -99,10 +99,10 @@ func getRestUrl(requestType string, amountTrends int, endpointType string) strin
 	configuration := config.GetConfiguration()
 	amountDaysOfTrends := configuration.AmountDaysTrends
 	remoteUrl := configuration.RemoteUrl
-    fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType  + "&days=" + fmt.Sprint(amountDaysOfTrends)
-    if amountTrends != 0 {
-        fullRemoteUrl = fullRemoteUrl + "&amount=" + fmt.Sprint(amountTrends)
-    }
-    logging.Debug("REST URL: " + fullRemoteUrl)
+	fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType + "&days=" + fmt.Sprint(amountDaysOfTrends)
+	if amountTrends != 0 {
+		fullRemoteUrl = fullRemoteUrl + "&amount=" + fmt.Sprint(amountTrends)
+	}
+	logging.Debug("REST URL: " + fullRemoteUrl)
 	return fullRemoteUrl
 }

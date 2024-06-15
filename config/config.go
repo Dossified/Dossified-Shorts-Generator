@@ -13,9 +13,9 @@ type ConfigStruct struct {
 	RemoteUrl     string
 	GowitnessHost string
 
-	AmountNewsTrends   int
+	AmountNewsTrends     int
 	AmountUpcomingEvents int
-	AmountDaysTrends   int
+	AmountDaysTrends     int
 
 	UploadToYouTube   bool
 	UploadToInstagram bool
