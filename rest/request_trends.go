@@ -20,6 +20,17 @@ type TrendArticle struct {
 	ArticleId   int    `json:"id"`
 }
 
+type EventItem struct {
+	EventId         int    `json:"pk"`
+	EventTitle      string `json:"title"`
+	EventSource     string `json:"source"`
+	EventDatePublic string `json:"date_public"`
+	EventDateStart  string `json:"date_start"`
+	EventDateEnd    string `json:"date_end"`
+	EventCoinId     int    `json:"coin_id"`
+	EventTags       int    `json:"tags"`
+}
+
 const (
 	NEWS RequestType = iota
 	EVENTS
@@ -31,14 +42,12 @@ func RequestNewsTrends() []TrendArticle {
 	return requestTrends("news", amountTrends)
 }
 
-func RequestEventsTrends() []TrendArticle {
-	amountTrends := config.GetConfiguration().AmountEventsTrends
-	return requestTrends("events", amountTrends)
+func RequestUpcomingEvents() []EventItem {
+	return requestEvents("events")
 }
 
-func requestTrends(requestType string, amountTrends int) []TrendArticle {
-
-	var requestUrl string = getRestUrl(requestType, amountTrends)
+func requestEvents(requestType string) []EventItem {
+	var requestUrl string = getRestUrl(requestType, 0, "events")
 
 	response, err := http.Get(requestUrl)
 	utils.CheckError(err)
@@ -48,22 +57,52 @@ func requestTrends(requestType string, amountTrends int) []TrendArticle {
 
 	stringBody := string(responseBody)
 
-	articles := parseJson(stringBody)
+	articles := parseEventsJson(stringBody)
+	logging.Debug("Events", zap.String("Events", stringBody))
+
+	return articles
+}
+
+func requestTrends(requestType string, amountTrends int) []TrendArticle {
+	var requestUrl string = getRestUrl(requestType, amountTrends, "trends")
+
+	response, err := http.Get(requestUrl)
+	utils.CheckError(err)
+
+	responseBody, err := io.ReadAll(response.Body)
+	utils.CheckError(err)
+
+	stringBody := string(responseBody)
+
+	articles := parseTrendsJson(stringBody)
 	logging.Debug("Trends", zap.String("Trends", stringBody))
 
 	return articles
 }
 
-func parseJson(stringBody string) []TrendArticle {
+func parseEventsJson(stringBody string) []EventItem {
+	data := []EventItem{}
+	logging.Debug("Events JSON: " + fmt.Sprint(data))
+	err := json.Unmarshal([]byte(stringBody), &data)
+	utils.CheckError(err)
+	return data
+}
+
+func parseTrendsJson(stringBody string) []TrendArticle {
 	data := []TrendArticle{}
 	err := json.Unmarshal([]byte(stringBody), &data)
 	utils.CheckError(err)
 	return data
 }
 
-func getRestUrl(requestType string, amountTrends int) string {
+func getRestUrl(requestType string, amountTrends int, endpointType string) string {
 	configuration := config.GetConfiguration()
 	amountDaysOfTrends := configuration.AmountDaysTrends
 	remoteUrl := configuration.RemoteUrl
-	return remoteUrl + "/api/trends/?filter=" + requestType + "&amount=" + fmt.Sprint(amountTrends) + "&days=" + fmt.Sprint(amountDaysOfTrends)
+	fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType + "&days=" + fmt.Sprint(amountDaysOfTrends)
+	if amountTrends != 0 {
+		fullRemoteUrl = fullRemoteUrl + "&amount=" + fmt.Sprint(amountTrends)
+	}
+	logging.Debug("REST URL: " + fullRemoteUrl)
+	return fullRemoteUrl
 }

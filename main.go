@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/Dossified/Dossified-Shorts-Generator/config"
 	"github.com/Dossified/Dossified-Shorts-Generator/logging"
 	"github.com/Dossified/Dossified-Shorts-Generator/rest"
@@ -19,13 +21,28 @@ type PostRequestBody struct {
 func main() {
 	logging.InitLogger()
 	logging.Info("Dossified Shorts Generator v0.1")
-
-	trendingNews := rest.RequestNewsTrends()
-	trendingEvents := rest.RequestEventsTrends()
-	screenshot.ScreenshotTrends(trendingNews, "news")
-	screenshot.ScreenshotTrends(trendingEvents, "events")
-
-	videoPath := video.CreateVideo()
+	if len(os.Args) <= 1 {
+		logging.Error("No video mode defined!")
+		os.Exit(1)
+	}
+	videoMode := os.Args[1]
+	switch videoMode {
+	case "news":
+		trendingNews := rest.RequestNewsTrends()
+		screenshot.ScreenshotTrends(trendingNews, "news")
+		break
+	case "events":
+		trendingEvents := rest.RequestUpcomingEvents()
+		screenshot.ScreenshotEvents(trendingEvents)
+		break
+	case "coins":
+		// ToDo
+		break
+	default:
+		logging.Error("Unknown video mode defined!")
+		os.Exit(2)
+	}
+	videoPath := video.CreateVideo(videoMode)
 
 	if config.GetConfiguration().UploadToYouTube {
 		youtube.UploadVideo(videoPath)
