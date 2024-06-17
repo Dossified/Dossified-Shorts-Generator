@@ -37,7 +37,6 @@ func ScreenshotEvents(events []rest.EventItem) {
 
 		screenshotData := screenshotHttpPostRequest(screenshotPostUrl, requestBody)
 		saveScreenshotToFile(getScreenshotPath(screenshotPath, event.EventId), screenshotData)
-		defer screenshotData.Close()
 		logging.Debug("Successfully saved event " + fmt.Sprint(event.EventId))
 	}
 	logging.Info("Screenshots taken")
