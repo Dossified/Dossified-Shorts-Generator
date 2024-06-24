@@ -17,6 +17,7 @@ import (
 
 	"github.com/Dossified/Dossified-Shorts-Generator/logging"
 	"github.com/Dossified/Dossified-Shorts-Generator/utils"
+	"github.com/Dossified/Dossified-Shorts-Generator/video"
 
 	"go.uber.org/zap"
 	"golang.org/x/net/context"
@@ -25,10 +26,10 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-func UploadVideo(videoPath string) {
+func UploadVideo(videoPath string, videoMode string) {
 
-	videoTitle := utils.GetVideoTitle()
-	videoDescription := utils.GetVideoDescription()
+	videoTitle := video.GetVideoTitle(videoMode)
+	videoDescription := video.GetVideoDescription(videoMode)
 	videoCategory := ""
 	videoKeywords := "crypto currency, news, bitcoin, ethereum, solana, iota, ripple, monero, usdc"
 	videoPrivacyStatus := "private"

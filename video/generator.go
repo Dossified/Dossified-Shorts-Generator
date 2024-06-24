@@ -58,7 +58,7 @@ func createVideoSnippets(subFolder string) []string {
 			continue
 		}
 		logging.Debug("Preparing image", zap.String("File", file.Name()))
-		videoFilePath := createVideoFromImage(IMAGE_PATH+subFolder+"/", file.Name(), 6)
+		videoFilePath := createVideoFromImage(IMAGE_PATH+subFolder+"/", file.Name(), 3)
 		videoFiles = append(videoFiles, videoFilePath)
 	}
 	return videoFiles
@@ -142,7 +142,9 @@ func addBackgroundMusic(videoPath string) {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	inputVideo := ffmpeg_go.Input(videoPath)
-	inputAudio := ffmpeg_go.Input(currentPath + "/assets/bg_music.wav")
+	inputAudio := ffmpeg_go.Input(currentPath+"/assets/bg_music.wav", ffmpeg_go.KwArgs{
+		"stream_loop": "-1",
+	})
 	out := ffmpeg_go.Output(
 		[]*ffmpeg_go.Stream{inputVideo, inputAudio},
 		VIDEO_PATH+"videoFinal.mp4",
