@@ -40,7 +40,7 @@ func loadFile(filepath string) io.Reader {
 func upload(
 	file io.Reader,
 	insta *goinsta.Instagram,
-    videoMode string,
+	videoMode string,
 ) {
 	videoTitle := video.GetVideoTitle(videoMode)
 	_, err := insta.Upload(

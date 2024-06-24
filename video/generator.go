@@ -142,9 +142,9 @@ func addBackgroundMusic(videoPath string) {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	inputVideo := ffmpeg_go.Input(videoPath)
-	inputAudio := ffmpeg_go.Input(currentPath + "/assets/bg_music.wav", ffmpeg_go.KwArgs{
-        "stream_loop": "-1",
-    })
+	inputAudio := ffmpeg_go.Input(currentPath+"/assets/bg_music.wav", ffmpeg_go.KwArgs{
+		"stream_loop": "-1",
+	})
 	out := ffmpeg_go.Output(
 		[]*ffmpeg_go.Stream{inputVideo, inputAudio},
 		VIDEO_PATH+"videoFinal.mp4",
