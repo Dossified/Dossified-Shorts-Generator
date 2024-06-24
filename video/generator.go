@@ -58,7 +58,7 @@ func createVideoSnippets(subFolder string) []string {
 			continue
 		}
 		logging.Debug("Preparing image", zap.String("File", file.Name()))
-		videoFilePath := createVideoFromImage(IMAGE_PATH+subFolder+"/", file.Name(), 6)
+		videoFilePath := createVideoFromImage(IMAGE_PATH+subFolder+"/", file.Name(), 3)
 		videoFiles = append(videoFiles, videoFilePath)
 	}
 	return videoFiles

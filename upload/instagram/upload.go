@@ -7,6 +7,7 @@ import (
 	"github.com/Dossified/Dossified-Shorts-Generator/config"
 	"github.com/Dossified/Dossified-Shorts-Generator/logging"
 	"github.com/Dossified/Dossified-Shorts-Generator/utils"
+	"github.com/Dossified/Dossified-Shorts-Generator/video"
 
 	"github.com/Davincible/goinsta/v3"
 )
@@ -41,7 +42,7 @@ func upload(
 	insta *goinsta.Instagram,
     videoMode string,
 ) {
-	videoTitle := utils.GetVideoTitle(videoMode)
+	videoTitle := video.GetVideoTitle(videoMode)
 	_, err := insta.Upload(
 		&goinsta.UploadOptions{
 			File:    file,
