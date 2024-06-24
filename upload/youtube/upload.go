@@ -25,10 +25,10 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-func UploadVideo(videoPath string) {
+func UploadVideo(videoPath string, videoMode string) {
 
-	videoTitle := utils.GetVideoTitle()
-	videoDescription := utils.GetVideoDescription()
+	videoTitle := utils.GetVideoTitle(videoMode)
+	videoDescription := utils.GetVideoDescription(videoMode)
 	videoCategory := ""
 	videoKeywords := "crypto currency, news, bitcoin, ethereum, solana, iota, ripple, monero, usdc"
 	videoPrivacyStatus := "private"

@@ -45,9 +45,9 @@ func main() {
 	videoPath := video.CreateVideo(videoMode)
 
 	if config.GetConfiguration().UploadToYouTube {
-		youtube.UploadVideo(videoPath)
+		youtube.UploadVideo(videoPath, videoMode)
 	}
 	if config.GetConfiguration().UploadToInstagram {
-		instagram.UploadToInstagram(videoPath)
+		instagram.UploadToInstagram(videoPath, videoMode)
 	}
 }

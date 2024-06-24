@@ -11,7 +11,7 @@ import (
 	"github.com/Davincible/goinsta/v3"
 )
 
-func UploadToInstagram(filepath string) {
+func UploadToInstagram(filepath string, videoMode string) {
 	logging.Info("Instagram upload initiated")
 	logging.Info("Logging into Instagram")
 	instagramUsername := config.GetConfiguration().InstagramUsername
@@ -26,7 +26,7 @@ func UploadToInstagram(filepath string) {
 	logging.Info("Loading video file for Instagram upload")
 	file := loadFile(filepath)
 	logging.Info("Uploading to Instagram")
-	upload(file, insta)
+	upload(file, insta, videoMode)
 	logging.Info("Upload to Instagram successful")
 }
 
@@ -39,8 +39,9 @@ func loadFile(filepath string) io.Reader {
 func upload(
 	file io.Reader,
 	insta *goinsta.Instagram,
+    videoMode string,
 ) {
-	videoTitle := utils.GetVideoTitle()
+	videoTitle := utils.GetVideoTitle(videoMode)
 	_, err := insta.Upload(
 		&goinsta.UploadOptions{
 			File:    file,
