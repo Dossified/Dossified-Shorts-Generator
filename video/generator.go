@@ -17,7 +17,7 @@ const VIDEO_PATH = "output/videos/"
 const IMAGE_PATH = "output/screenshots/"
 const ASSET_PATH = "assets/"
 
-func CreateVideo(videoMode string) string {
+func CreateVideo(videoMode string) (string, string) {
 	logging.Info("Creating video")
 
 	createVideoDir()
@@ -36,16 +36,19 @@ func CreateVideo(videoMode string) string {
 		break
 	}
 
-	mergeVideos(videoFiles)
+	mergeVideos(videoFiles, false)
+	mergeVideos(videoFiles, true)
 	removeTemporaryVideos(videoFiles)
 
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	videoPath := currentPath + "/" + VIDEO_PATH + "out.mp4"
-	addBackgroundMusic(videoPath)
+	addBackgroundMusic(videoPath, false)
+	videoPathYT := currentPath + "/" + VIDEO_PATH + "outYT.mp4"
+	addBackgroundMusic(videoPathYT, true)
 	videoPath = currentPath + "/" + VIDEO_PATH + "videoFinal.mp4"
 	logging.Info("Video created", zap.String("path", videoPath))
-	return videoPath
+	return videoPath, videoPathYT
 }
 
 func createVideoSnippets(subFolder string) []string {
@@ -84,19 +87,26 @@ func removeTemporaryVideos(videoFiles []string) {
 	}
 }
 
-func mergeVideos(videoFiles []string) {
+func mergeVideos(videoFiles []string, youtubeMode bool) {
 	videoPathsTextFile, err := os.Create(VIDEO_PATH + "videos")
 	utils.CheckError(err)
 
 	for _, file := range videoFiles {
 		videoPathsTextFile.WriteString("file '" + file + "'\n")
 	}
+    kwargs := ffmpeg_go.KwArgs{
+        "f":    "concat",
+        "safe": "0",
+    }
+    fileName := "out.mp4"
+    if (youtubeMode) {
+        kwargs["t"] = "60"
+        fileName = "outYT.mp4"
+    }
 	ffmpeg_go.Input(
 		VIDEO_PATH+"videos",
-		ffmpeg_go.KwArgs{
-			"f":    "concat",
-			"safe": "0",
-		}).Output(VIDEO_PATH + "out.mp4").OverWriteOutput().ErrorToStdOut().Run()
+		kwargs,
+    ).Output(VIDEO_PATH + fileName).OverWriteOutput().ErrorToStdOut().Run()
 	os.Remove(VIDEO_PATH + "videos")
 }
 
@@ -138,16 +148,20 @@ func removeOldScreenshots(imagePath string, imageFileName string) {
 	utils.CheckError(err)
 }
 
-func addBackgroundMusic(videoPath string) {
+func addBackgroundMusic(videoPath string, youtubeMode bool) {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
 	inputVideo := ffmpeg_go.Input(videoPath)
 	inputAudio := ffmpeg_go.Input(currentPath+"/assets/bg_music.wav", ffmpeg_go.KwArgs{
 		"stream_loop": "-1",
 	})
+    outFileName := "videoFinal.mp4"
+    if (youtubeMode) {
+        outFileName = "videoFinalYT.mp4"
+    }
 	out := ffmpeg_go.Output(
 		[]*ffmpeg_go.Stream{inputVideo, inputAudio},
-		VIDEO_PATH+"videoFinal.mp4",
+		VIDEO_PATH + outFileName,
 		ffmpeg_go.KwArgs{
 			"map":      "1:a",
 			"c:v":      "copy",

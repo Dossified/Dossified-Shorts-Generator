@@ -42,10 +42,10 @@ func main() {
 		logging.Error("Unknown video mode defined!")
 		os.Exit(2)
 	}
-	videoPath := video.CreateVideo(videoMode)
+	videoPath, videoPathYT := video.CreateVideo(videoMode)
 
 	if config.GetConfiguration().UploadToYouTube {
-		youtube.UploadVideo(videoPath, videoMode)
+		youtube.UploadVideo(videoPathYT, videoMode)
 	}
 	if config.GetConfiguration().UploadToInstagram {
 		instagram.UploadToInstagram(videoPath, videoMode)
