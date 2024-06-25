@@ -94,19 +94,19 @@ func mergeVideos(videoFiles []string, youtubeMode bool) {
 	for _, file := range videoFiles {
 		videoPathsTextFile.WriteString("file '" + file + "'\n")
 	}
-    kwargs := ffmpeg_go.KwArgs{
-        "f":    "concat",
-        "safe": "0",
-    }
-    fileName := "out.mp4"
-    if (youtubeMode) {
-        kwargs["t"] = "60"
-        fileName = "outYT.mp4"
-    }
+	kwargs := ffmpeg_go.KwArgs{
+		"f":    "concat",
+		"safe": "0",
+	}
+	fileName := "out.mp4"
+	if youtubeMode {
+		kwargs["t"] = "60"
+		fileName = "outYT.mp4"
+	}
 	ffmpeg_go.Input(
 		VIDEO_PATH+"videos",
 		kwargs,
-    ).Output(VIDEO_PATH + fileName).OverWriteOutput().ErrorToStdOut().Run()
+	).Output(VIDEO_PATH + fileName).OverWriteOutput().ErrorToStdOut().Run()
 	os.Remove(VIDEO_PATH + "videos")
 }
 
@@ -155,13 +155,13 @@ func addBackgroundMusic(videoPath string, youtubeMode bool) {
 	inputAudio := ffmpeg_go.Input(currentPath+"/assets/bg_music.wav", ffmpeg_go.KwArgs{
 		"stream_loop": "-1",
 	})
-    outFileName := "videoFinal.mp4"
-    if (youtubeMode) {
-        outFileName = "videoFinalYT.mp4"
-    }
+	outFileName := "videoFinal.mp4"
+	if youtubeMode {
+		outFileName = "videoFinalYT.mp4"
+	}
 	out := ffmpeg_go.Output(
 		[]*ffmpeg_go.Stream{inputVideo, inputAudio},
-		VIDEO_PATH + outFileName,
+		VIDEO_PATH+outFileName,
 		ffmpeg_go.KwArgs{
 			"map":      "1:a",
 			"c:v":      "copy",
