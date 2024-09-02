@@ -29,7 +29,7 @@ func ScreenshotEvents(events []rest.EventItem) {
 	screenshotPath := createScreenshotDir("events")
 
 	for _, event := range events {
-        // Build request URL
+		// Build request URL
 		requestUrl := fmt.Sprintf(
 			"%s/vid_gen/?item_id=%d&obj_type=%s",
 			restApiHost,
@@ -39,9 +39,9 @@ func ScreenshotEvents(events []rest.EventItem) {
 		logging.Debug("URL: ", zap.String("URL", requestUrl))
 		requestBody := getRequestBody(requestUrl)
 
-        // Retrieve image from REST API
+		// Retrieve image from REST API
 		screenshotData := screenshotHttpPostRequest(screenshotPostUrl, requestBody)
-        // Save image data to file
+		// Save image data to file
 		saveScreenshotToFile(getScreenshotPath(screenshotPath, event.EventId), screenshotData)
 		logging.Debug("Successfully saved event " + fmt.Sprint(event.EventId))
 	}
@@ -59,7 +59,7 @@ func ScreenshotTrends(trends []rest.TrendArticle, subFolder string) {
 	screenshotPath := createScreenshotDir(subFolder)
 
 	for _, article := range trends {
-        // Build request URL
+		// Build request URL
 		requestUrl := fmt.Sprintf(
 			"%s/vid_gen/?item_id=%d&obj_type=%s",
 			restApiHost,
@@ -69,11 +69,15 @@ func ScreenshotTrends(trends []rest.TrendArticle, subFolder string) {
 		logging.Debug("url", zap.String("url", requestUrl))
 		requestBody := getRequestBody(requestUrl)
 
-        // Retrieve image from REST API
+		// Retrieve image from REST API
 		screenshotData := screenshotHttpPostRequest(screenshotPostUrl, requestBody)
-        // Save image data to file
+		// Save image data to file
 		saveScreenshotToFile(getScreenshotPath(screenshotPath, article.ArticleId), screenshotData)
-		logging.Debug("Successfully taken screenshot of trend " + article.ArticleType + " " + fmt.Sprint(article.ArticleId))
+		logging.Debug(
+			"Successfully taken screenshot of trend " + article.ArticleType + " " + fmt.Sprint(
+				article.ArticleId,
+			),
+		)
 	}
 	logging.Info("Screenshots taken")
 }

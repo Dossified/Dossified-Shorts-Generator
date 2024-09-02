@@ -111,7 +111,9 @@ func getRestUrl(requestType string, amountTrends int, endpointType string) strin
 	configuration := config.GetConfiguration()
 	amountDaysOfTrends := configuration.AmountDaysTrends
 	remoteUrl := configuration.RemoteUrl
-	fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType + "&days=" + fmt.Sprint(amountDaysOfTrends)
+	fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType + "&days=" + fmt.Sprint(
+		amountDaysOfTrends,
+	)
 	if amountTrends != 0 {
 		fullRemoteUrl = fullRemoteUrl + "&amount=" + fmt.Sprint(amountTrends)
 	}

@@ -17,7 +17,7 @@ import (
 func UploadToInstagram(filepath string, videoMode string) {
 	logging.Info("Instagram upload initiated")
 	logging.Info("Logging into Instagram")
-    // Authentication
+	// Authentication
 	instagramUsername := config.GetConfiguration().InstagramUsername
 	instagramPassword := config.GetConfiguration().InstagramPassword
 	insta := goinsta.New(instagramUsername, instagramPassword)
@@ -26,7 +26,7 @@ func UploadToInstagram(filepath string, videoMode string) {
 
 	defer insta.Export("./.goinsta")
 
-    // Load file & upload
+	// Load file & upload
 	logging.Info("Loading video file for Instagram upload")
 	file := loadFile(filepath)
 	logging.Info("Uploading to Instagram")

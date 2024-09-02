@@ -31,10 +31,18 @@ func GetVideoDescription(videoMode string) string {
 	var description string
 	switch videoMode {
 	case "events":
-		description = "Crypto events week " + getDateString(0) + " - " + getDateString(7) + " #airdrops #events #crypto #blockchain #Dossified #shorts"
+		description = "Crypto events week " + getDateString(
+			0,
+		) + " - " + getDateString(
+			7,
+		) + " #airdrops #events #crypto #blockchain #Dossified #shorts"
 		break
 	case "news":
-		description = "Crypto news trends " + getDateString(0) + " - " + getDateString(7) + " #blockchain #crypto #Dossified #shorts"
+		description = "Crypto news trends " + getDateString(
+			0,
+		) + " - " + getDateString(
+			7,
+		) + " #blockchain #crypto #Dossified #shorts"
 		break
 	}
 	logging.Debug("Video description: " + description)
@@ -59,5 +67,9 @@ func getDateString(daysToAdd int) string {
 		dayString += "th"
 		break
 	}
-	return dayString + " " + fmt.Sprint(time.Now().AddDate(0, 0, daysToAdd).Month()) + " " + fmt.Sprint(time.Now().AddDate(0, 0, daysToAdd).Year())
+	return dayString + " " + fmt.Sprint(
+		time.Now().AddDate(0, 0, daysToAdd).Month(),
+	) + " " + fmt.Sprint(
+		time.Now().AddDate(0, 0, daysToAdd).Year(),
+	)
 }

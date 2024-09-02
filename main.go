@@ -19,12 +19,12 @@ import (
 )
 
 func main() {
-    // Setting up logger
+	// Setting up logger
 	logging.InitLogger()
 	logging.Info("Dossified Shorts Generator v0.1")
 
-    // Req. argument video mode.
-    // e.g. `go run . events` or `go run . news`
+	// Req. argument video mode.
+	// e.g. `go run . events` or `go run . news`
 	if len(os.Args) <= 1 {
 		logging.Error("No video mode defined!")
 		os.Exit(1)
@@ -32,32 +32,32 @@ func main() {
 	videoMode := os.Args[1]
 
 	switch videoMode {
-        case "news":
-            // Requesting events from REST api
-            trendingNews := rest.RequestNewsTrends()
-            // Call Gowitness REST api to take screenshots
-            screenshot.ScreenshotTrends(trendingNews, "news")
-            break
-        case "events":
-            // Requesting events from REST api
-            trendingEvents := rest.RequestUpcomingEvents()
-            // Call Gowitness REST api to take screenshots
-            screenshot.ScreenshotEvents(trendingEvents)
-            break
-        default:
-            logging.Error("Unknown video mode defined!")
-            os.Exit(2)
+	case "news":
+		// Requesting events from REST api
+		trendingNews := rest.RequestNewsTrends()
+		// Call Gowitness REST api to take screenshots
+		screenshot.ScreenshotTrends(trendingNews, "news")
+		break
+	case "events":
+		// Requesting events from REST api
+		trendingEvents := rest.RequestUpcomingEvents()
+		// Call Gowitness REST api to take screenshots
+		screenshot.ScreenshotEvents(trendingEvents)
+		break
+	default:
+		logging.Error("Unknown video mode defined!")
+		os.Exit(2)
 	}
 
-    // Cutting & rendering video
+	// Cutting & rendering video
 	videoPath, videoPathYT := video.CreateVideo(videoMode)
 
-    // YouTube upload
+	// YouTube upload
 	if config.GetConfiguration().UploadToYouTube {
 		youtube.UploadVideo(videoPathYT, videoMode)
 	}
 
-    // Instagram upload
+	// Instagram upload
 	if config.GetConfiguration().UploadToInstagram {
 		instagram.UploadToInstagram(videoPath, videoMode)
 	}
