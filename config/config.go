@@ -1,3 +1,4 @@
+// Helper to configure application according to provided TOML file
 package config
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/pelletier/go-toml/v2"
 )
 
+// Configuration file structure
 type ConfigStruct struct {
 	LogLevel      string
 	RemoteUrl     string
@@ -24,6 +26,7 @@ type ConfigStruct struct {
 	InstagramPassword string
 }
 
+// Retrieves current configuration from file
 func GetConfiguration() ConfigStruct {
 	config := ConfigStruct{}
 	config_file_path := "config.toml"
@@ -32,6 +35,7 @@ func GetConfiguration() ConfigStruct {
 	return config
 }
 
+// Retrieves content of configuration file
 func getConfigFile(file_path string) []byte {
 	executable_path, err := os.Getwd()
 	utils.CheckError(err)

@@ -1,3 +1,4 @@
+// Contains all function related to video editing & rendering
 package video
 
 import (
@@ -17,33 +18,44 @@ const VIDEO_PATH = "output/videos/"
 const IMAGE_PATH = "output/screenshots/"
 const ASSET_PATH = "assets/"
 
+// Generates the video from the previously taken screenshots
 func CreateVideo(videoMode string) (string, string) {
 	logging.Info("Creating video")
 
+    // Make sure output directory exists
 	createVideoDir()
 
+    // First we create a list of all images we want to concatenate
+    // This include intro & outro images
 	videoFiles := make([]string, 0)
 	switch videoMode {
-	case "news":
-		videoFiles = append(videoFiles, createChapterIntroVideo("news"))
-		videoFiles = append(videoFiles, createVideoSnippets("news")...)
-		break
-	case "events":
-		videoFiles = append(videoFiles, createChapterIntroVideo("events"))
-		videoFiles = append(videoFiles, createVideoSnippets("events")...)
-		break
-	case "coins":
-		break
+        case "news":
+            videoFiles = append(videoFiles, createChapterIntroVideo("news"))
+            videoFiles = append(videoFiles, createVideoSnippets("news")...)
+            break
+        case "events":
+            videoFiles = append(videoFiles, createChapterIntroVideo("events"))
+            videoFiles = append(videoFiles, createVideoSnippets("events")...)
+            break
+        case "coins":
+            break
 	}
 
+    // Here we merge the images into videos
+    // We create 2 videos bc. YouTube has a short video limit of 60 seconds
+    // Therefore we create a second video which gets cut after the 60s mark
 	mergeVideos(videoFiles, false)
 	mergeVideos(videoFiles, true)
 	removeTemporaryVideos(videoFiles)
 
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
+
+    // Add background music to the video
 	videoPath := currentPath + "/" + VIDEO_PATH + "out.mp4"
 	addBackgroundMusic(videoPath, false)
+
+    // Add background music to the video
 	videoPathYT := currentPath + "/" + VIDEO_PATH + "outYT.mp4"
 	addBackgroundMusic(videoPathYT, true)
 	videoPath = currentPath + "/" + VIDEO_PATH + "videoFinal.mp4"
@@ -51,6 +63,7 @@ func CreateVideo(videoMode string) (string, string) {
 	return videoPath, videoPathYT
 }
 
+// Adds all image file paths of our screenshots to a list of strings
 func createVideoSnippets(subFolder string) []string {
 	files, err := os.ReadDir(IMAGE_PATH + "/" + subFolder + "/")
 	utils.CheckError(err)
@@ -67,11 +80,13 @@ func createVideoSnippets(subFolder string) []string {
 	return videoFiles
 }
 
+// Creates a video from the intro image
 func createChapterIntroVideo(chapterName string) string {
 	videoFilePath := createVideoFromImage(ASSET_PATH, chapterName+".png", 3)
 	return videoFilePath
 }
 
+// Creates video output directory if it does not exist yet
 func createVideoDir() string {
 	path := filepath.Join(".", VIDEO_PATH)
 	err := os.MkdirAll(path, os.ModePerm)
@@ -80,6 +95,7 @@ func createVideoDir() string {
 	return path
 }
 
+// Deletes temporary video files
 func removeTemporaryVideos(videoFiles []string) {
 	for _, file := range videoFiles {
 		err := os.Remove(file)
@@ -87,6 +103,7 @@ func removeTemporaryVideos(videoFiles []string) {
 	}
 }
 
+// Merges out seperate videos for intro & content into a single video
 func mergeVideos(videoFiles []string, youtubeMode bool) {
 	videoPathsTextFile, err := os.Create(VIDEO_PATH + "videos")
 	utils.CheckError(err)
@@ -110,6 +127,7 @@ func mergeVideos(videoFiles []string, youtubeMode bool) {
 	os.Remove(VIDEO_PATH + "videos")
 }
 
+// Generates a video with fade from the passed image path
 func createVideoFromImage(imagePath string, imageFileName string, length int) string {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
@@ -136,10 +154,13 @@ func createVideoFromImage(imagePath string, imageFileName string, length int) st
 		OverWriteOutput().
 		ErrorToStdOut().
 		Run()
+
+    // Delete the screenshot after we're done
 	removeOldScreenshots(imagePath, imageFileName)
 	return outputFilePath
 }
 
+// Deletes input image by path
 func removeOldScreenshots(imagePath string, imageFileName string) {
 	if imagePath == ASSET_PATH {
 		return
@@ -148,6 +169,7 @@ func removeOldScreenshots(imagePath string, imageFileName string) {
 	utils.CheckError(err)
 }
 
+// Adds background music to the input video
 func addBackgroundMusic(videoPath string, youtubeMode bool) {
 	currentPath, err := os.Getwd()
 	utils.CheckError(err)
