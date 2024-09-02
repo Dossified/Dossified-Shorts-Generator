@@ -7,13 +7,15 @@ Generates shorts of trending articles on [Dossified.com](https://dossified.com/)
 
 1. Install [ffmpeg](https://ffmpeg.org/download.html)
 
-2. Download dependencies
+2. Setup [Gowitness](https://github.com/sensepost/gowitness) & start application
+
+3. Download dependencies
 
 ```sh
 $ go mod download
 ```
 
-3. Edit `config.toml`
+4. Copy `config.toml.example` to `config.toml` & modify accordingly
 
-4. Run application using: `make run`
+5. Run application using: `make run`
 

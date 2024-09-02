@@ -1,3 +1,5 @@
+// Contains all function related to uploading a video on YouTube
+// Most of the code stems from https://developers.google.com/youtube/v3/code_samples/go
 package youtube
 
 import (
@@ -26,18 +28,21 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
+// Authenticates with YouTube & uploads the input video
 func UploadVideo(videoPath string, videoMode string) {
-
+	// Generate video metadata
 	videoTitle := video.GetVideoTitle(videoMode)
 	videoDescription := video.GetVideoDescription(videoMode)
 	videoCategory := ""
 	videoKeywords := "crypto currency, news, bitcoin, ethereum, solana, iota, ripple, monero, usdc"
 	videoPrivacyStatus := "private"
 
+	// Authentication
 	client := getClient(youtube.YoutubeUploadScope)
 	service, err := youtube.New(client)
 	utils.CheckError(err)
 
+	// Setup upload process
 	upload := &youtube.Video{
 		Snippet: &youtube.VideoSnippet{
 			Title:       *&videoTitle,
@@ -49,6 +54,7 @@ func UploadVideo(videoPath string, videoMode string) {
 		},
 	}
 
+	// Set video tags
 	if strings.Trim(*&videoKeywords, "") != "" {
 		upload.Snippet.Tags = strings.Split(*&videoKeywords, ",")
 	}
@@ -59,6 +65,7 @@ func UploadVideo(videoPath string, videoMode string) {
 	defer file.Close()
 	utils.CheckError(err)
 
+	// Upload video
 	response, err := call.Media(file).Do()
 	utils.CheckError(err)
 	logging.Info("YouTube Upload Successful!", zap.String("Video ID", response.Id))

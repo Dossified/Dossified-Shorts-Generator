@@ -1,3 +1,4 @@
+// Helper to convert images from one file format to another
 package image_conversion
 
 import (

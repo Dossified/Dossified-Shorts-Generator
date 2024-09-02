@@ -1,3 +1,5 @@
+// Contains all relevant code for retrieving articles & events from
+// the Dossified REST API
 package rest
 
 import (
@@ -15,11 +17,13 @@ import (
 
 type RequestType int
 
+// Represents a single trending news article item
 type TrendArticle struct {
 	ArticleType string `json:"type"`
 	ArticleId   int    `json:"id"`
 }
 
+// Represents a single upcoming event item
 type EventItem struct {
 	EventId         int    `json:"pk"`
 	EventTitle      string `json:"title"`
@@ -37,15 +41,19 @@ const (
 	STAFF_PICKED
 )
 
+// Request a list of news trends from the REST API
 func RequestNewsTrends() []TrendArticle {
 	amountTrends := config.GetConfiguration().AmountNewsTrends
 	return requestTrends("news", amountTrends)
 }
 
+// Request a list of upcoming events from the REST api
 func RequestUpcomingEvents() []EventItem {
 	return requestEvents("events")
 }
 
+// Retrieves a list of upcoming events & parses them into `EventItem` objects
+// Returns a list of all upcoming events
 func requestEvents(requestType string) []EventItem {
 	var requestUrl string = getRestUrl(requestType, 0, "events")
 
@@ -63,6 +71,7 @@ func requestEvents(requestType string) []EventItem {
 	return articles
 }
 
+// Retrieves trending news articles from the REST API
 func requestTrends(requestType string, amountTrends int) []TrendArticle {
 	var requestUrl string = getRestUrl(requestType, amountTrends, "trends")
 
@@ -80,6 +89,7 @@ func requestTrends(requestType string, amountTrends int) []TrendArticle {
 	return articles
 }
 
+// Parses incoming JSON data into a list of `EventItem` objects
 func parseEventsJson(stringBody string) []EventItem {
 	data := []EventItem{}
 	logging.Debug("Events JSON: " + fmt.Sprint(data))
@@ -88,6 +98,7 @@ func parseEventsJson(stringBody string) []EventItem {
 	return data
 }
 
+// Parses incoming JSON data into a list of `TrendArticle` objects
 func parseTrendsJson(stringBody string) []TrendArticle {
 	data := []TrendArticle{}
 	err := json.Unmarshal([]byte(stringBody), &data)
@@ -95,11 +106,14 @@ func parseTrendsJson(stringBody string) []TrendArticle {
 	return data
 }
 
+// Creates the REST API url for the specific type of articles requested
 func getRestUrl(requestType string, amountTrends int, endpointType string) string {
 	configuration := config.GetConfiguration()
 	amountDaysOfTrends := configuration.AmountDaysTrends
 	remoteUrl := configuration.RemoteUrl
-	fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType + "&days=" + fmt.Sprint(amountDaysOfTrends)
+	fullRemoteUrl := remoteUrl + "/api/" + endpointType + "/?filter=" + requestType + "&days=" + fmt.Sprint(
+		amountDaysOfTrends,
+	)
 	if amountTrends != 0 {
 		fullRemoteUrl = fullRemoteUrl + "&amount=" + fmt.Sprint(amountTrends)
 	}
