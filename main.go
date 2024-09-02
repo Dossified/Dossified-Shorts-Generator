@@ -18,12 +18,6 @@ import (
 	"github.com/Dossified/Dossified-Shorts-Generator/video"
 )
 
-type PortRequestBody struct {
-	Url     string   `json:"url"`
-	Oneshot bool     `json:"oneshot"`
-	Headers []string `json:"headers"`
-}
-
 func main() {
     // Setting up logger
 	logging.InitLogger()
